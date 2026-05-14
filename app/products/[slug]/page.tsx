@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useCart } from "@/context/CartContext";
 
 type Product = {
   id: number;
@@ -27,7 +28,11 @@ export default function ProductDetailsPage() {
 
   const slug = params.slug;
 
+  const { addToCart } = useCart();
+
   const [product, setProduct] = useState<Product | null>(null);
+
+  const [qty, setQty] = useState(1);
 
   useEffect(() => {
 
@@ -58,6 +63,23 @@ export default function ProductDetailsPage() {
     fetchProduct();
 
   }, [slug]);
+
+  const handleAddToCart = () => {
+
+    if (!product) return;
+
+    const cartProduct = {
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      price: product.sale_price || product.price,
+      image: product.front_image,
+      quantity: qty,
+    };
+
+    addToCart(cartProduct);
+
+  };
 
   if (!product) {
 
@@ -280,24 +302,46 @@ export default function ProductDetailsPage() {
                       {/* QTY */}
                       <div className="bb-single-qty">
 
-                        <div className="qty-plus-minus">
+                        <div className="qty-plus-minus d-flex align-items-center">
+
+                          <button
+                            className="qty-btn"
+                            onClick={() =>
+                              setQty((prev) =>
+                                prev > 1 ? prev - 1 : 1
+                              )
+                            }
+                          >
+                            -
+                          </button>
 
                           <input
                             className="qty-input"
                             type="text"
-                            defaultValue={1}
+                            value={qty}
+                            readOnly
                           />
+
+                          <button
+                            className="qty-btn"
+                            onClick={() =>
+                              setQty((prev) => prev + 1)
+                            }
+                          >
+                            +
+                          </button>
 
                         </div>
 
                         <div className="buttons">
 
-                          <a
-                            href="javascript:void(0)"
+                          <button
+                            type="button"
                             className="bb-btn-2"
+                            onClick={handleAddToCart}
                           >
                             Add To Cart
-                          </a>
+                          </button>
 
                         </div>
 
@@ -305,19 +349,9 @@ export default function ProductDetailsPage() {
 
                           <li className="bb-btn-group">
 
-                            <a href="javascript:void(0)">
+                            <a href="#">
 
                               <i className="ri-heart-line" />
-
-                            </a>
-
-                          </li>
-
-                          <li className="bb-btn-group">
-
-                            <a href="javascript:void(0)">
-
-                              <i className="ri-eye-line" />
 
                             </a>
 

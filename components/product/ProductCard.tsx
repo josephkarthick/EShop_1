@@ -1,5 +1,11 @@
 "use client";
 
+import Link from "next/link";
+import { toast } from "react-toastify";
+
+import { useCart } from "@/context/CartContext";
+import { useQuickView } from "@/context/QuickViewContext";
+
 type ProductCardProps = {
   product: any;
 };
@@ -8,17 +14,31 @@ export default function ProductCard({
   product,
 }: ProductCardProps) {
 
-  /* Temporary Add To Cart */
-  const addToCart = (product: any) => {
-    console.log("Added To Cart:", product);
-    alert(`${product.name} added to cart`);
+  /* Cart Context */
+  const { addToCart } = useCart();
+
+const { setQuickViewProduct } =
+  useQuickView();
+
+
+  /* Add To Cart Handler */
+  const handleAddToCart = () => {
+
+    addToCart(product);
+
+    toast.success(
+      `${product.name} added to cart`
+    );
+
   };
+  
+  
 
   return (
 
     <div className="bb-pro-box">
 
-      {/* Image */}
+      {/* Product Image */}
       <div className="bb-pro-img">
 
         {/* Label */}
@@ -31,7 +51,7 @@ export default function ProductCard({
         </span>
 
         {/* Product Link */}
-        <a href={`/product/${product.slug}`}>
+        <Link href={`/product/${product.slug}`}>
 
           <div className="inner-img">
 
@@ -49,15 +69,18 @@ export default function ProductCard({
 
           </div>
 
-        </a>
+        </Link>
 
-        {/* Actions */}
+        {/* Product Actions */}
         <ul className="bb-pro-actions">
 
           {/* Wishlist */}
           <li className="bb-btn-group">
 
-            <button type="button" title="Wishlist">
+            <button
+              type="button"
+              title="Wishlist"
+            >
 
               <i className="ri-heart-line" />
 
@@ -65,7 +88,6 @@ export default function ProductCard({
 
           </li>
 
-          {/* Quick View */}
 {/* Quick View */}
 <li className="bb-btn-group">
 
@@ -74,6 +96,9 @@ export default function ProductCard({
     title="Quick View"
     data-bs-toggle="modal"
     data-bs-target="#bry_quickview_modal"
+    onClick={() =>
+      setQuickViewProduct(product)
+    }
   >
 
     <i className="ri-eye-line" />
@@ -103,7 +128,7 @@ export default function ProductCard({
               type="button"
               title="Add To Cart"
               className="border-0 bg-transparent"
-              onClick={() => addToCart(product)}
+              onClick={handleAddToCart}
             >
 
               <i className="ri-shopping-bag-4-line" />
@@ -116,10 +141,10 @@ export default function ProductCard({
 
       </div>
 
-      {/* Content */}
+      {/* Product Content */}
       <div className="bb-pro-contact">
 
-        {/* Category */}
+        {/* Subtitle */}
         <div className="bb-pro-subtitle">
 
           <a href="#">
@@ -139,12 +164,12 @@ export default function ProductCard({
 
         </div>
 
-        {/* Product Name */}
+        {/* Product Title */}
         <h4 className="bb-pro-title">
 
-          <a href={`/product/${product.slug}`}>
+          <Link href={`/product/${product.slug}`}>
             {product.name}
-          </a>
+          </Link>
 
         </h4>
 
@@ -153,12 +178,18 @@ export default function ProductCard({
 
           <div className="inner-price">
 
+            {/* Sale Price */}
             <span className="new-price">
+
               ₹{product.sale_price}
+
             </span>
 
+            {/* Original Price */}
             <span className="old-price">
-              ₹{product.mrp || product.price}
+
+              ₹{product.price}
+
             </span>
 
           </div>
@@ -166,9 +197,11 @@ export default function ProductCard({
           {/* Stock */}
           <span className="last-items">
 
-            {product.stock
-              ? `${product.stock} Items`
-              : product.size}
+            {
+              product.stock_qty
+                ? `${product.stock_qty} Items`
+                : product.size
+            }
 
           </span>
 

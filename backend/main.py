@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from database import engine
 from database import Base
@@ -19,6 +20,13 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="VaisKart API",
     version="1.0.0"
+)
+
+# STATIC MEDIA
+app.mount(
+    "/media",
+    StaticFiles(directory="media"),
+    name="media"
 )
 
 # CORS

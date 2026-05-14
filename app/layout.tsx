@@ -3,6 +3,10 @@ import Script from "next/script";
 
 import "./globals.css";
 
+/* Toast */
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 /* Vendor CSS */
 import "@/public/assets/css/vendor/bootstrap.min.css";
 import "@/public/assets/css/vendor/remixicon.css";
@@ -18,10 +22,12 @@ import "@/public/assets/css/style.css";
 
 /* Context */
 import { CartProvider } from "@/context/CartContext";
+import { QuickViewProvider } from "@/context/QuickViewContext";
 
 /* Layout Components */
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import ThemeInitializer from "@/components/common/ThemeInitializer";
 
 /* Common Components */
 import Loader from "@/components/common/Loader";
@@ -52,34 +58,55 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+
       <body>
 
         <CartProvider>
 
-          {/* Loader */}
-          <Loader />
+          <QuickViewProvider>
+		  
+		      <ThemeInitializer />
 
-          {/* Header */}
-          <Header />
+            {/* Loader */}
+            <Loader />
 
-          {/* Main Content */}
-          {children}
+            {/* Header */}
+            <Header />
 
-          {/* Footer */}
-          <Footer />
+            {/* Main Content */}
+            <main>
+              {children}
+            </main>
 
-          {/* Sidebars */}
-          <CartSidebar />
-          <MobileMenu />
-          <CategorySidebar />
-          <ToolsSidebar />
+            {/* Footer */}
+            <Footer />
 
-          {/* Modals */}
-          <QuickViewModal />
-          <NewsletterModal />
+            {/* Sidebars */}
+            <CartSidebar />
+            <MobileMenu />
+            <CategorySidebar />
+            <ToolsSidebar />
 
-          {/* Utilities */}
-          <BackToTop />
+            {/* Modals */}
+            <QuickViewModal />
+            <NewsletterModal />
+
+            {/* Utilities */}
+            <BackToTop />
+
+            {/* Toast Notifications */}
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              pauseOnHover
+              draggable
+              theme="light"
+            />
+
+          </QuickViewProvider>
 
         </CartProvider>
 
@@ -143,6 +170,7 @@ export default function RootLayout({
         />
 
       </body>
+
     </html>
   );
 }

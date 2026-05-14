@@ -7,7 +7,7 @@ export default function Explore () {
       <div className="row mb-minus-24">
         <div className="col-lg-5 col-12 mb-24">
           <div className="bb-category-img">
-            <img src="assets/img/category/category.jpg" alt="category" />
+            <img src="assets/img/category/category.png" alt="category" />
             <div className="bb-offers">
               <span>50% Off</span>
             </div>
@@ -21,7 +21,7 @@ export default function Explore () {
               data-aos-duration={1000}
               data-aos-delay={600}
             >
-              <h2>Explore Categories</h2>
+              <h2>Explore VaisKart</h2>
             </div>
             <div className="bb-category-block owl-carousel">
               <div
@@ -31,11 +31,11 @@ export default function Explore () {
                 data-aos-delay={200}
               >
                 <div className="category-image">
-                  <img src="assets/img/category/1.svg" alt="category" />
+                  <img src="assets/img/category/Lite.png" alt="category" />
                 </div>
                 <div className="category-sub-contact">
                   <h5>
-                    <a href="shop-left-sidebar-col-3.html">vegetables</a>
+                    <a href="shop-left-sidebar-col-3.html">Lite</a>
                   </h5>
                   <p>485 items</p>
                 </div>
@@ -47,11 +47,11 @@ export default function Explore () {
                 data-aos-delay={400}
               >
                 <div className="category-image">
-                  <img src="assets/img/category/2.svg" alt="category" />
+                  <img src="assets/img/category/Standard.png" alt="category" />
                 </div>
                 <div className="category-sub-contact">
                   <h5>
-                    <a href="shop-left-sidebar-col-3.html">Fruits</a>
+                    <a href="shop-left-sidebar-col-3.html">Standard</a>
                   </h5>
                   <p>291 items</p>
                 </div>
@@ -63,11 +63,11 @@ export default function Explore () {
                 data-aos-delay={600}
               >
                 <div className="category-image">
-                  <img src="assets/img/category/3.svg" alt="category" />
+                  <img src="assets/img/category/Plus.png" alt="category" />
                 </div>
                 <div className="category-sub-contact">
                   <h5>
-                    <a href="shop-left-sidebar-col-3.html">Cold Drinks</a>
+                    <a href="shop-left-sidebar-col-3.html">Plus</a>
                   </h5>
                   <p>49 items</p>
                 </div>
@@ -79,15 +79,31 @@ export default function Explore () {
                 data-aos-delay={800}
               >
                 <div className="category-image">
-                  <img src="assets/img/category/4.svg" alt="category" />
+                  <img src="assets/img/category/Maxi.png" alt="category" />
                 </div>
                 <div className="category-sub-contact">
                   <h5>
-                    <a href="shop-left-sidebar-col-3.html">Bakery</a>
+                    <a href="shop-left-sidebar-col-3.html">Maxi</a>
                   </h5>
                   <p>08 items</p>
                 </div>
               </div>
+              <div
+                className="bb-category-box category-items-3"
+                data-aos="flip-left"
+                data-aos-duration={1000}
+                data-aos-delay={800}
+              >
+                <div className="category-image">
+                  <img src="assets/img/category/Pro_Max.png" alt="category" />
+                </div>
+                <div className="category-sub-contact">
+                  <h5>
+                    <a href="shop-left-sidebar-col-3.html">Pro Max</a>
+                  </h5>
+                  <p>08 items</p>
+                </div>
+              </div>  
             </div>
           </div>
         </div>
