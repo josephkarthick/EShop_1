@@ -14,25 +14,62 @@ export default function ProductCard({
   product,
 }: ProductCardProps) {
 
-  /* Cart Context */
   const { addToCart } = useCart();
 
-const { setQuickViewProduct } =
-  useQuickView();
+  const { setQuickViewProduct } =
+    useQuickView();
 
+  // =========================
+  // SAFE VALUES
+  // =========================
 
-  /* Add To Cart Handler */
+  const productId =
+    product.id || product.item_id;
+
+  const productName =
+    product.name || "Product";
+
+  const productSlug =
+    product.slug || product.item_id;
+
+  const productPrice =
+    product.sale_price ||
+    product.rate ||
+    0;
+
+  const oldPrice =
+    product.price ||
+    product.rate ||
+    0;
+
+  const stockQty =
+    product.stock_qty ||
+    product.stock_on_hand ||
+    0;
+
+  const productImage =
+    product.front_image
+      ? `http://127.0.0.1:8000${product.front_image}`
+      : "/assets/img/product/default.jpg";
+
+  const hoverImage =
+    product.back_image
+      ? `http://127.0.0.1:8000${product.back_image}`
+      : productImage;
+
+  // =========================
+  // ADD TO CART
+  // =========================
+
   const handleAddToCart = () => {
 
     addToCart(product);
 
     toast.success(
-      `${product.name} added to cart`
+      `${productName} added to cart`
     );
 
   };
-  
-  
 
   return (
 
@@ -41,7 +78,6 @@ const { setQuickViewProduct } =
       {/* Product Image */}
       <div className="bb-pro-img">
 
-        {/* Label */}
         <span className="flags">
 
           <span>
@@ -50,31 +86,29 @@ const { setQuickViewProduct } =
 
         </span>
 
-        {/* Product Link */}
-        <Link href={`/product/${product.slug}`}>
+        <Link href={`/product/${productSlug}`}>
 
           <div className="inner-img">
 
             <img
               className="main-img"
-              src={`http://127.0.0.1:8000${product.front_image}`}
-              alt={product.name}
+              src={productImage}
+              alt={productName}
             />
 
             <img
               className="hover-img"
-              src={`http://127.0.0.1:8000${product.back_image}`}
-              alt={product.name}
+              src={hoverImage}
+              alt={productName}
             />
 
           </div>
 
         </Link>
 
-        {/* Product Actions */}
+        {/* Actions */}
         <ul className="bb-pro-actions">
 
-          {/* Wishlist */}
           <li className="bb-btn-group">
 
             <button
@@ -88,24 +122,24 @@ const { setQuickViewProduct } =
 
           </li>
 
-{/* Quick View */}
-<li className="bb-btn-group">
+          {/* Quick View */}
+          <li className="bb-btn-group">
 
-  <button
-    type="button"
-    title="Quick View"
-    data-bs-toggle="modal"
-    data-bs-target="#bry_quickview_modal"
-    onClick={() =>
-      setQuickViewProduct(product)
-    }
-  >
+            <button
+              type="button"
+              title="Quick View"
+              data-bs-toggle="modal"
+              data-bs-target="#bry_quickview_modal"
+              onClick={() =>
+                setQuickViewProduct(product)
+              }
+            >
 
-    <i className="ri-eye-line" />
+              <i className="ri-eye-line" />
 
-  </button>
+            </button>
 
-</li>
+          </li>
 
           {/* Compare */}
           <li className="bb-btn-group">
@@ -141,17 +175,18 @@ const { setQuickViewProduct } =
 
       </div>
 
-      {/* Product Content */}
+      {/* Content */}
       <div className="bb-pro-contact">
 
-        {/* Subtitle */}
         <div className="bb-pro-subtitle">
 
           <a href="#">
-            {product.product_type || product.material}
+            {product.product_type ||
+              product.material ||
+              product.sku ||
+              "Product"}
           </a>
 
-          {/* Rating */}
           <span className="bb-pro-rating">
 
             <i className="ri-star-fill" />
@@ -164,44 +199,35 @@ const { setQuickViewProduct } =
 
         </div>
 
-        {/* Product Title */}
         <h4 className="bb-pro-title">
 
-          <Link href={`/product/${product.slug}`}>
-            {product.name}
+          <Link href={`/product/${productSlug}`}>
+            {productName}
           </Link>
 
         </h4>
 
-        {/* Price */}
         <div className="bb-price">
 
           <div className="inner-price">
 
-            {/* Sale Price */}
             <span className="new-price">
 
-              ₹{product.sale_price}
+              ₹{productPrice}
 
             </span>
 
-            {/* Original Price */}
             <span className="old-price">
 
-              ₹{product.price}
+              ₹{oldPrice}
 
             </span>
 
           </div>
 
-          {/* Stock */}
           <span className="last-items">
 
-            {
-              product.stock_qty
-                ? `${product.stock_qty} Items`
-                : product.size
-            }
+            {stockQty} Items
 
           </span>
 

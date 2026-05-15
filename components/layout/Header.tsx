@@ -78,18 +78,14 @@ export default function Header() {
                   <div className="col-left-bar">
 
                     <Link href="/">
-                      Flat 50% Off On Grocery Shop.
+                      Flat 50% Off On VaisKart Shop.
                     </Link>
 
                   </div>
 
                   <div className="col-right-bar">
 
-                    <div className="cols">
-                      <Link href="/faq">
-                        Help?
-                      </Link>
-                    </div>
+
 
                     <div className="cols">
                       <Link href="/track-order">
@@ -159,7 +155,7 @@ export default function Header() {
                             <select>
 
                               <option>
-                                All Categories
+                                Categories
                               </option>
 
                               {categories.map((cat) => (
