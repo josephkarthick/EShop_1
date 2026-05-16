@@ -6,7 +6,7 @@ DATABASE_URL = "postgresql+psycopg2://postgres.dlohtdpjylitmrmeykem:Karthick%407
 
 engine = create_engine(
     DATABASE_URL,
-    echo=True
+    pool_pre_ping=True
 )
 
 SessionLocal = sessionmaker(
