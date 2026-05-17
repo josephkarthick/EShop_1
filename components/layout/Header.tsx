@@ -384,7 +384,7 @@ export default function Header() {
 
                         <a
                           className="nav-link bb-dropdown-item"
-                          href="javascript:void(0)"
+                          href="#"
                         >
                           Products
                         </a>
@@ -400,7 +400,7 @@ export default function Header() {
 
                               <a
                                 className="bb-mega-item"
-                                href="javascript:void(0)"
+                                href="#"
                               >
                                 {cat.name}
                               </a>
@@ -442,7 +442,7 @@ export default function Header() {
 
                         <a
                           className="nav-link bb-dropdown-item"
-                          href="javascript:void(0)"
+                          href="#"
                         >
                           Pages
                         </a>
