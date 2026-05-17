@@ -19,7 +19,7 @@ export default function NewsletterModal() {
               type="email"
               name="newsemail"
               placeholder="Email Address"
-              required=""
+              required
             />
             <button type="button" className="bb-btn-2" name="subscribe">
               Subscribe

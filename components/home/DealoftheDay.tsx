@@ -1,46 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import ProductCard from "@/components/product/ProductCard";
 
-export default function DealoftheDay() {
+interface Props {
+  products: any[];
+}
 
-  const [products, setProducts] = useState([]);
+export default function DealoftheDay({ products }: Props) {
 
-  useEffect(() => {
-
-    const fetchProducts = async () => {
-
-      try {
-
-        const res = await fetch(
-          "http://127.0.0.1:8000/products/"
-        );
-
-        const data = await res.json();
-
-        // ONLY DEAL PRODUCTS
-        const deals = data.filter(
-          (item: any) =>
-            item.day_of_the_deal === true
-        );
-
-        setProducts(deals);
-
-      } catch (error) {
-
-        console.log(error);
-
-      }
-
-    };
-
-    fetchProducts();
-
-  }, []);
+  // FILTER ONLY DEAL PRODUCTS
+  const deals = products.filter(
+    (item: any) =>
+      item.day_of_the_deal === true
+  );
 
   return (
+
     <>
       <section className="section-deal padding-tb-50">
 
@@ -86,7 +61,7 @@ export default function DealoftheDay() {
 
                 <div className="bb-deal-block owl-carousel">
 
-                  {products.map((product: any) => (
+                  {deals.map((product: any) => (
 
                     <div
                       key={product.id}
@@ -113,6 +88,7 @@ export default function DealoftheDay() {
 
       </section>
     </>
+
   );
 
 }
