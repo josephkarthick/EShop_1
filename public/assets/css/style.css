@@ -1725,9 +1725,7 @@ select {
   font-size: 15px;
   font-weight: 500;
 }
-.bb-header .bb-mobile-menu .bb-menu-inner .bb-menu-content ul li a:last-child() {
-  margin-bottom: 0;
-}
+
 .bb-header .bb-mobile-menu .bb-menu-inner .bb-menu-content ul li .menu-toggle {
   width: 100%;
   height: 54px;
@@ -2756,9 +2754,7 @@ select {
   font-size: 15px;
   font-weight: 500;
 }
-.bb-mobile-menu .bb-menu-inner .bb-menu-content ul li a:last-child() {
-  margin-bottom: 0;
-}
+
 .bb-mobile-menu .bb-menu-inner .bb-menu-content ul li .menu-toggle {
   width: 100%;
   height: 54px;

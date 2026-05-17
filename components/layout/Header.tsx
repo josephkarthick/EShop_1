@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://eshop-d0hk.onrender.com";
+
 type Category = {
   id: number;
   name: string;
@@ -32,7 +36,7 @@ export default function Header() {
 
         // Categories
         const catRes = await fetch(
-          "http://127.0.0.1:8000/categories/"
+          `${API_BASE_URL}/categories/`
         );
 
         const catData = await catRes.json();
@@ -40,9 +44,9 @@ export default function Header() {
         setCategories(catData);
 
         // Products
-        const productRes = await fetch(
-          "http://127.0.0.1:8000/products/"
-        );
+		const productRes = await fetch(
+		`${API_BASE_URL}/products/`
+		);
 
         const productData = await productRes.json();
 

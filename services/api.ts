@@ -1,22 +1,28 @@
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://eshop-d0hk.onrender.com";
 
 export async function getProducts() {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/products`,
+      `${API_BASE_URL}/products/`,
       {
         cache: "no-store",
       }
     );
 
     if (!response.ok) {
-      return [];
+      throw new Error("Failed to fetch products");
     }
 
-    return await response.json();
+    const data = await response.json();
+
+    console.log("Products:", data);
+
+    return data;
 
   } catch (error) {
-    console.log("FastAPI backend is not running");
+    console.error("API ERROR:", error);
     return [];
   }
 }
