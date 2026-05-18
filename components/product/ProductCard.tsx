@@ -47,15 +47,17 @@ export default function ProductCard({
     product.stock_on_hand ||
     0;
 
+  // =========================
+  // IMAGE URLS
+  // =========================
+
   const productImage =
-    product.front_image
-      ? `http://127.0.0.1:8000${product.front_image}`
-      : "/assets/img/product/default.jpg";
+    product.front_image ||
+    "/assets/img/product/default.jpg";
 
   const hoverImage =
-    product.back_image
-      ? `http://127.0.0.1:8000${product.back_image}`
-      : productImage;
+    product.back_image ||
+    productImage;
 
   // =========================
   // ADD TO CART
