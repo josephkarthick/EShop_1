@@ -22,6 +22,10 @@ type Product = {
   back_image: string;
 };
 
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://eshop-d0hk.onrender.com";
+
 export default function ProductDetailsPage() {
 
   const params = useParams();
@@ -34,6 +38,8 @@ export default function ProductDetailsPage() {
 
   const [qty, setQty] = useState(1);
 
+  const [selectedImage, setSelectedImage] = useState("");
+
   useEffect(() => {
 
     const fetchProduct = async () => {
@@ -41,7 +47,7 @@ export default function ProductDetailsPage() {
       try {
 
         const res = await fetch(
-          `http://127.0.0.1:8000/products/`
+          `${API_BASE_URL}/products/`
         );
 
         const data = await res.json();
@@ -51,6 +57,13 @@ export default function ProductDetailsPage() {
         );
 
         setProduct(foundProduct);
+
+        const images = [
+          foundProduct.front_image,
+          foundProduct.back_image,
+        ].filter(Boolean);
+
+        setSelectedImage(images[0]);
 
       } catch (error) {
 
@@ -110,59 +123,75 @@ export default function ProductDetailsPage() {
 
                     <div className="single-pro-slider">
 
+                      {/* MAIN IMAGE */}
                       <div className="single-product-cover">
 
                         <div className="single-slide zoom-image-hover">
 
                           <img
-                            className="img-responsive"
-                            src={product.front_image}
+                            className="img-responsive w-100"
+                            src={selectedImage}
                             alt={product.name}
+                            style={{
+                              borderRadius: "14px",
+                              objectFit: "cover",
+                              width: "100%",
+                              height: "500px",
+                              border: "1px solid #eee",
+                            }}
                           />
 
                         </div>
-
-                        {product.back_image && (
-
-                          <div className="single-slide zoom-image-hover">
-
-                            <img
-                              className="img-responsive"
-                              src={product.back_image}
-                              alt={product.name}
-                            />
-
-                          </div>
-
-                        )}
 
                       </div>
 
-                      <div className="single-nav-thumb">
+                      {/* THUMBNAILS */}
+                      <div
+                        className="single-nav-thumb mt-3"
+                        style={{
+                          display: "flex",
+                          gap: "12px",
+                          flexWrap: "wrap",
+                        }}
+                      >
 
-                        <div className="single-slide">
+                        {[
+                          product.front_image,
+                          product.back_image,
+                        ]
+                          .filter(Boolean)
+                          .map((image, index) => (
 
-                          <img
-                            className="img-responsive"
-                            src={product.front_image}
-                            alt={product.name}
-                          />
+                            <div
+                              key={index}
+                              className="single-slide"
+                              onClick={() => setSelectedImage(image)}
+                              style={{
+                                cursor: "pointer",
+                                border:
+                                  selectedImage === image
+                                    ? "2px solid #4a63e7"
+                                    : "1px solid #ddd",
+                                borderRadius: "10px",
+                                overflow: "hidden",
+                                width: "90px",
+                                height: "90px",
+                                transition: "0.3s",
+                              }}
+                            >
 
-                        </div>
+                              <img
+                                className="img-responsive w-100 h-100"
+                                src={image}
+                                alt={product.name}
+                                style={{
+                                  objectFit: "cover",
+                                }}
+                              />
 
-                        {product.back_image && (
+                            </div>
 
-                          <div className="single-slide">
-
-                            <img
-                              className="img-responsive"
-                              src={product.back_image}
-                              alt={product.name}
-                            />
-
-                          </div>
-
-                        )}
+                        ))}
 
                       </div>
 
@@ -177,94 +206,108 @@ export default function ProductDetailsPage() {
 
                       <div className="bb-sub-title">
 
-                        <h4>
+                        <h2
+                          style={{
+                            fontWeight: 700,
+                            marginBottom: "15px",
+                          }}
+                        >
                           {product.name}
-                        </h4>
+                        </h2>
 
                       </div>
 
-                      <div className="bb-single-rating">
+                      {/* RATING */}
+                      <div className="bb-single-rating mb-3">
 
                         <span className="bb-pro-rating">
 
-                          <i className="ri-star-fill" />
-                          <i className="ri-star-fill" />
-                          <i className="ri-star-fill" />
-                          <i className="ri-star-fill" />
-                          <i className="ri-star-line" />
+                          <i className="ri-star-fill text-warning" />
+                          <i className="ri-star-fill text-warning" />
+                          <i className="ri-star-fill text-warning" />
+                          <i className="ri-star-fill text-warning" />
+                          <i className="ri-star-line text-warning" />
 
                         </span>
 
-                        <span className="bb-read-review">
+                        <span className="bb-read-review ms-2">
 
-                          |&nbsp;&nbsp;
-                          <a href="#bb-spt-nav-review">
-                            Ratings
-                          </a>
+                          (4.0 Ratings)
 
                         </span>
 
                       </div>
 
-                      <p>
+                      {/* SHORT DESCRIPTION */}
+                      <p
+                        style={{
+                          color: "#666",
+                          lineHeight: "28px",
+                          fontSize: "15px",
+                        }}
+                      >
                         {product.short_description}
                       </p>
 
                       {/* PRICE */}
-                      <div className="bb-single-price-wrap">
+                      <div
+                        className="bb-single-price-wrap"
+                        style={{
+                          marginTop: "25px",
+                          marginBottom: "25px",
+                        }}
+                      >
 
-                        <div className="bb-single-price">
+                        <div
+                          className="d-flex align-items-center gap-3"
+                        >
 
-                          <div className="price">
-
-                            <h5>
-
-                              ₹{product.sale_price || product.price}
-
-                            </h5>
-
-                          </div>
+                          <h3
+                            style={{
+                              color: "#4a63e7",
+                              fontWeight: 700,
+                              margin: 0,
+                            }}
+                          >
+                            ₹{product.sale_price || product.price}
+                          </h3>
 
                           {product.sale_price && (
 
-                            <div className="mrp">
-
-                              <p>
-
-                                M.R.P. :
-                                <span>
-                                  ₹{product.price}
-                                </span>
-
-                              </p>
-
-                            </div>
+                            <span
+                              style={{
+                                textDecoration: "line-through",
+                                color: "#999",
+                                fontSize: "18px",
+                              }}
+                            >
+                              ₹{product.price}
+                            </span>
 
                           )}
 
                         </div>
 
-                        <div className="bb-single-price">
+                        <div
+                          style={{
+                            marginTop: "10px",
+                          }}
+                        >
 
-                          <div className="sku">
+                          <span
+                            style={{
+                              color:
+                                product.stock_qty > 0
+                                  ? "green"
+                                  : "red",
+                              fontWeight: 600,
+                            }}
+                          >
+                            {product.stock_qty > 0
+                              ? "In Stock"
+                              : "Out Of Stock"}
 
-                            <h5>
-                              SKU#: {product.sku}
-                            </h5>
-
-                          </div>
-
-                          <div className="stock">
-
-                            <span>
-
-                              {product.stock_qty > 0
-                                ? "In Stock"
-                                : "Out Of Stock"}
-
-                            </span>
-
-                          </div>
+                          </span>
 
                         </div>
 
@@ -273,91 +316,135 @@ export default function ProductDetailsPage() {
                       {/* PRODUCT INFO */}
                       <div className="bb-single-list">
 
-                        <ul>
+                        <ul
+                          style={{
+                            padding: 0,
+                            margin: 0,
+                            listStyle: "none",
+                          }}
+                        >
 
-                          <li>
-                            <span>Material :</span>
-                            {product.material}
+                          <li className="mb-2">
+                            <strong>SKU :</strong> {product.sku}
                           </li>
 
-                          <li>
-                            <span>Color :</span>
-                            {product.color}
+                          <li className="mb-2">
+                            <strong>Material :</strong> {product.material}
                           </li>
 
-                          <li>
-                            <span>Size :</span>
-                            {product.size}
+                          <li className="mb-2">
+                            <strong>Color :</strong> {product.color}
                           </li>
 
-                          <li>
-                            <span>Weight :</span>
-                            {product.weight} Kg
+                          <li className="mb-2">
+                            <strong>Size :</strong> {product.size}
+                          </li>
+
+                          <li className="mb-2">
+                            <strong>Weight :</strong> {product.weight} Kg
                           </li>
 
                         </ul>
 
                       </div>
 
-                      {/* QTY */}
-                      <div className="bb-single-qty">
+                      {/* QUANTITY */}
+                      <div
+                        className="bb-single-qty mt-4"
+                      >
 
-                        <div className="qty-plus-minus d-flex align-items-center">
+                        <div
+                          className="d-flex align-items-center gap-3 flex-wrap"
+                        >
 
-                          <button
-                            className="qty-btn"
-                            onClick={() =>
-                              setQty((prev) =>
-                                prev > 1 ? prev - 1 : 1
-                              )
-                            }
+                          {/* QTY BOX */}
+                          <div
+                            className="qty-plus-minus d-flex align-items-center"
+                            style={{
+                              border: "1px solid #ddd",
+                              borderRadius: "10px",
+                              overflow: "hidden",
+                            }}
                           >
-                            -
-                          </button>
 
-                          <input
-                            className="qty-input"
-                            type="text"
-                            value={qty}
-                            readOnly
-                          />
+                            <button
+                              className="qty-btn"
+                              onClick={() =>
+                                setQty((prev) =>
+                                  prev > 1 ? prev - 1 : 1
+                                )
+                              }
+                              style={{
+                                width: "45px",
+                                height: "45px",
+                                border: "none",
+                                background: "#f5f5f5",
+                              }}
+                            >
+                              -
+                            </button>
 
-                          <button
-                            className="qty-btn"
-                            onClick={() =>
-                              setQty((prev) => prev + 1)
-                            }
-                          >
-                            +
-                          </button>
+                            <input
+                              className="qty-input"
+                              type="text"
+                              value={qty}
+                              readOnly
+                              style={{
+                                width: "60px",
+                                textAlign: "center",
+                                border: "none",
+                              }}
+                            />
 
-                        </div>
+                            <button
+                              className="qty-btn"
+                              onClick={() =>
+                                setQty((prev) => prev + 1)
+                              }
+                              style={{
+                                width: "45px",
+                                height: "45px",
+                                border: "none",
+                                background: "#f5f5f5",
+                              }}
+                            >
+                              +
+                            </button>
 
-                        <div className="buttons">
+                          </div>
 
+                          {/* ADD TO CART */}
                           <button
                             type="button"
                             className="bb-btn-2"
                             onClick={handleAddToCart}
+                            style={{
+                              height: "48px",
+                              padding: "0 30px",
+                              borderRadius: "10px",
+                              background: "#4a63e7",
+                              border: "none",
+                              color: "#fff",
+                              fontWeight: 600,
+                            }}
                           >
                             Add To Cart
                           </button>
 
+                          {/* WISHLIST */}
+                          <button
+                            style={{
+                              width: "48px",
+                              height: "48px",
+                              borderRadius: "10px",
+                              border: "1px solid #ddd",
+                              background: "#fff",
+                            }}
+                          >
+                            <i className="ri-heart-line" />
+                          </button>
+
                         </div>
-
-                        <ul className="bb-pro-actions">
-
-                          <li className="bb-btn-group">
-
-                            <a href="#">
-
-                              <i className="ri-heart-line" />
-
-                            </a>
-
-                          </li>
-
-                        </ul>
 
                       </div>
 
@@ -370,7 +457,7 @@ export default function ProductDetailsPage() {
               </div>
 
               {/* TABS */}
-              <div className="bb-single-pro-tab">
+              <div className="bb-single-pro-tab mt-5">
 
                 <div className="bb-pro-tab">
 
@@ -383,7 +470,7 @@ export default function ProductDetailsPage() {
                         data-bs-toggle="tab"
                         href="#detail"
                       >
-                        Detail
+                        Description
                       </a>
 
                     </li>
@@ -404,25 +491,22 @@ export default function ProductDetailsPage() {
 
                 </div>
 
-                <div className="tab-content">
+                <div className="tab-content mt-4">
 
-                  {/* DETAIL */}
+                  {/* DESCRIPTION */}
                   <div
                     className="tab-pane fade show active"
                     id="detail"
                   >
 
-                    <div className="bb-inner-tabs">
-
-                      <div className="bb-details">
-
-                        <p>
-                          {product.description}
-                        </p>
-
-                      </div>
-
-                    </div>
+                    <p
+                      style={{
+                        color: "#666",
+                        lineHeight: "30px",
+                      }}
+                    >
+                      {product.description}
+                    </p>
 
                   </div>
 
@@ -432,42 +516,34 @@ export default function ProductDetailsPage() {
                     id="information"
                   >
 
-                    <div className="bb-inner-tabs">
+                    <ul
+                      style={{
+                        listStyle: "none",
+                        padding: 0,
+                      }}
+                    >
 
-                      <div className="information">
+                      <li className="mb-2">
+                        <strong>Weight :</strong> {product.weight} Kg
+                      </li>
 
-                        <ul>
+                      <li className="mb-2">
+                        <strong>Color :</strong> {product.color}
+                      </li>
 
-                          <li>
-                            <span>Weight</span>
-                            {product.weight} Kg
-                          </li>
+                      <li className="mb-2">
+                        <strong>Material :</strong> {product.material}
+                      </li>
 
-                          <li>
-                            <span>Color</span>
-                            {product.color}
-                          </li>
+                      <li className="mb-2">
+                        <strong>Size :</strong> {product.size}
+                      </li>
 
-                          <li>
-                            <span>Material</span>
-                            {product.material}
-                          </li>
+                      <li className="mb-2">
+                        <strong>SKU :</strong> {product.sku}
+                      </li>
 
-                          <li>
-                            <span>Size</span>
-                            {product.size}
-                          </li>
-
-                          <li>
-                            <span>SKU</span>
-                            {product.sku}
-                          </li>
-
-                        </ul>
-
-                      </div>
-
-                    </div>
+                    </ul>
 
                   </div>
 

@@ -12,19 +12,19 @@ export default function NewsletterModal() {
         <div className="bb-popnews-box-content">
           <h2>Newsletter.</h2>
           <p>
-            Subscribe the BlueBerry to get in touch and get the future update.
+                Now we are available on Amazon. Place your order directly from
+                Amazon and enjoy fast delivery.
           </p>
-          <form className="bb-popnews-form" action="#" method="post">
-            <input
-              type="email"
-              name="newsemail"
-              placeholder="Email Address"
-              required
-            />
-            <button type="button" className="bb-btn-2" name="subscribe">
-              Subscribe
-            </button>
-          </form>
+              <div className="bb-popnews-form">
+                <a
+                  href="https://www.amazon.in/s?k=VaisKart&ref=bl_dp_s_web_0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bb-btn-2"
+                >
+                  Shop on Amazon
+                </a>
+              </div>
         </div>
       </div>
     </div>
